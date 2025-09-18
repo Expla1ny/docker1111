@@ -1,28 +1,28 @@
-from repository import FlightRepository
-from flight import Flight
+from repository import ClientRepository
+from flight import Client
 
-class FlightService:
-    def __init__(self,repository:FlightRepository):
+class ClientService:
+    def __init__(self,repository:ClientRepository):
         self.repository = repository
 
-    def create_flight(self, flight:Flight):
-        """Добавление рейса"""
-        return self.repository.create_flight(flight)
+    def create_flight(self, flight:Client):
+        """Добавление клиента"""
+        return self.repository.create_client(flight)
     
     def get_all(self):
-        '''Получить все полёты'''
+        '''Получить всех клиентов'''
         return self.repository.get_all()
         
-    def get_by_id(self,flight_id:int):
+    def get_by_id(self,client_id:int):
         '''Получить полёт по id'''
-        return self.repository.get_by_id(flight_id)
+        return self.repository.get_by_id(client_id)
     
-    def update_flight(self, flight:Flight):
-        """Изменить существующий рейс. 
-            Если рейса не существует, ничего не делать."""
-        return self.repository.update_flight(flight)
+    def update_client(self, flight:Client):
+        """Изменить существующего клиента. 
+            Если клиента не существует, ничего не делать."""
+        return self.repository.update_client(flight)
     
-    def delete_flight(self,flight_id:int):
-        """Удалить существующий рейс.
-            Если рейса не существует, ничего не делать."""
-        return self.repository.delete_flight(flight_id)
+    def delete_client(self,Client_id:int):
+        """Удалить существующего клиента.
+            Если клиента не существует, ничего не делать."""
+        return self.repository.delete_client(Client_id)

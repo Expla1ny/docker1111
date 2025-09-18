@@ -1,24 +1,24 @@
-from flight import Flight
+from flight import Client
 from database import DatabaseConnection
 
 
-class FlightRepository:
+class ClientRepository:
     '''Класс-репозиторий для доступа к БД'''
 
     def __init__(self,connection: DatabaseConnection):
         self.connection=connection
 
-    def create_flight(self, flight:Flight):
-        """Добавление рейса"""
+    def create_flight(self, flight:Client):
+        """Добавление клиента"""
 
         conn = self.connection.get_connection()
         cursor = conn.cursor()
 
         cursor.execute('''
-            INSERT INTO flights
-                        (plane,price)
+            INSERT INTO clients
+                        (name,passnum)
                         VALUES (%s,%s)
-            ''',(flight.plane,flight.price))
+            ''',(flight.name,flight.passnum))
         conn.commit()
 
         cursor.close()
@@ -29,12 +29,12 @@ class FlightRepository:
     def get_all(self):
         conn = self.connection.get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM flights ORDER BY id")
+        cursor.execute("SELECT * FROM clients ORDER BY id")
         rows = cursor.fetchall()
 
-        flights = []
+        Clients = []
         for row in rows:
-            flights.append(Flight(
+            Clients.append(Client(
                 row[0],
                 row[1],
                 row[2]
@@ -42,38 +42,38 @@ class FlightRepository:
               
         cursor.close()
         conn.close()
-        return flights
+        return Clients
         
-    def get_by_id(self,flight_id:int):
-        """Получить рейс по идентификатору"""
+    def get_by_id(self,client_id:int):
+        """Получить клиента по идентификатору"""
         conn = self.connection.get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM flights WHERE id = %s",(flight_id,))
+        cursor.execute("SELECT * FROM clients WHERE id = %s",(client_id,))
         row = cursor.fetchone()
         
         cursor.close()
         conn.close()
 
         if row:
-            return Flight(
+            return Client(
                 row[0],
                 row[1],
                 row[2]
             )
         return None
     
-    def update_flight(self, flight:Flight):
-        """Изменить существующий рейс. 
-            Если рейса не существует, ничего не делать."""
+    def update_client(self, flight:Client):
+        """Изменить существующего клиента. 
+            Если клиента не существует, ничего не делать."""
         conn = self.connection.get_connection()
         cursor = conn.cursor()
         
         cursor.execute('''
-            UPDATE flights
-            SET price = %s, plane = %s
+            UPDATE clients
+            SET name = %s, passnum = %s
             WHERE id = %s
-            ''',(flight.price, flight.plane, flight.id))
+            ''',(flight.name, flight.passnum, flight.id))
         
         result = cursor.fetchone()
         flight.id = result[0]
@@ -84,14 +84,14 @@ class FlightRepository:
 
         return flight
     
-    def delete_flight(self,flight_id:int):
-        """Удалить существующий рейс.
-            Если рейса не существует, ничего не делать."""
+    def delete_client(self,client_id:int):
+        """Удалить существующего клиента.
+            Если клиента не существует, ничего не делать."""
         conn = self.connection.get_connection()
         cursor = conn.cursor()
         cursor.execute('''
-            DELETE FROM flights WHERE id = %s
-            ''',(flight_id,))
+            DELETE FROM clients WHERE id = %s
+            ''',(client_id,))
         conn.commit()
         deleted = cursor.rowcount
 

@@ -1,9 +1,9 @@
 from database import DatabaseConfig, DatabaseConnection
 from migrations import MigrationManager
-from repository import FlightRepository
-from service import FlightService
+from repository import ClientRepository
+from service import ClientService
 from fastapi import FastAPI, HTTPException
-from flight import Flight
+from flight import Client
 
 #Initialize
 ## DB config
@@ -19,43 +19,43 @@ db_connection = DatabaseConnection(db_config)
 migration_manager = MigrationManager(db_config)
 migration_manager.create_tables()
 # Repository and Service
-repository = FlightRepository(db_connection)
-service = FlightService(repository)
+repository = ClientRepository(db_connection)
+service = ClientService(repository)
 
 app = FastAPI(
-    title="Flight API"
+    title="Bank API"
 )
 
 @app.get("/")
 async def root():
     return {"message":"Hello from FastAPI"}
 
-@app.get("/flights")
-async def get_flights():
+@app.get("/clients")
+async def get_clients():
     try:
         return service.get_all()
     except Exception as e:
-        return HTTPException(status_code=500, detail=f"Ошибка при получении полётов: {str(e)}")
+        return HTTPException(status_code=500, detail=f"Ошибка при получении клиентов: {str(e)}")
 
-@app.post("/flights")
-async def create_flight(flight_data: dict):
+@app.post("/clients")
+async def create_client(client_data: dict):
     try:
         #Validation
-        required_fields = ["price","plane"]
+        required_fields = ["name","passnum"]
         for field in required_fields:
-            if field not in flight_data:
+            if field not in client_data:
                 raise HTTPException(status_code=400,detail=f"Отсутствует обязательное поле {field}")
         
-        flight = Flight(
-            price=flight_data['price'],
-            plane=flight_data['plane']
+        flight = Client(
+            price=client_data['name'],
+            plane=client_data['passnum']
         )
 
-        created_flight = service.create_flight(flight)
-        return created_flight
+        created_client = service.create_client(Client)
+        return created_client
 
     except Exception as e:
-        return HTTPException(status_code=500, detail=f"Ошибка при добавлении полёта: {str(e)}")
+        return HTTPException(status_code=500, detail=f"Ошибка при добавлении клиента: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn

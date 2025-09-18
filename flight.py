@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 @dataclass
-class Flight:
+class Client:
     id: Optional[int] = None
-    price: float = 0.0
-    plane: str = ""
+    name: str = ""
+    passnum: str = ""
+    
