@@ -15,7 +15,7 @@ class MigrationManager:
             CREATE TABLE IF NOT EXISTS clients(
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(100) NOT NULL,
-                        passnum DECIMAL(10,2) NOT NULL
+                        passnum VARCHAR(20s)NULL
                         )
             ''')
         conn.commit()
