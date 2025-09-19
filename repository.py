@@ -1,4 +1,4 @@
-from flight import Client
+from client import Client
 from database import DatabaseConnection
 
 
@@ -8,7 +8,7 @@ class ClientRepository:
     def __init__(self,connection: DatabaseConnection):
         self.connection=connection
 
-    def create_flight(self, flight:Client):
+    def create_client(self, client:Client):
         """Добавление клиента"""
 
         conn = self.connection.get_connection()
@@ -18,13 +18,13 @@ class ClientRepository:
             INSERT INTO clients
                         (name,passnum)
                         VALUES (%s,%s)
-            ''',(flight.name,flight.passnum))
+            ''',(client.name,client.passnum))
         conn.commit()
 
         cursor.close()
         conn.close()
 
-        return flight
+        return client
     
     def get_all(self):
         conn = self.connection.get_connection()

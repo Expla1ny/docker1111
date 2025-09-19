@@ -3,7 +3,7 @@ from migrations import MigrationManager
 from repository import ClientRepository
 from service import ClientService
 from fastapi import FastAPI, HTTPException
-from flight import Client
+from client import Client
 
 #Initialize
 ## DB config
@@ -23,7 +23,7 @@ repository = ClientRepository(db_connection)
 service = ClientService(repository)
 
 app = FastAPI(
-    title="Bank API"
+    title="BankAPI"
 )
 
 @app.get("/")
@@ -46,7 +46,7 @@ async def create_client(client_data: dict):
             if field not in client_data:
                 raise HTTPException(status_code=400,detail=f"Отсутствует обязательное поле {field}")
         
-        flight = Client(
+        client = Client(
             price=client_data['name'],
             plane=client_data['passnum']
         )
