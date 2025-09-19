@@ -47,8 +47,8 @@ async def create_client(client_data: dict):
                 raise HTTPException(status_code=400,detail=f"Отсутствует обязательное поле {field}")
         
         client = Client(
-            price=client_data['name'],
-            plane=client_data['passnum']
+            name=client_data['name'],
+            passnum=client_data['passnum']
         )
 
         created_client = service.create_client(Client)
