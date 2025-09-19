@@ -5,7 +5,7 @@ class ClientService:
     def __init__(self,repository:ClientRepository):
         self.repository = repository
 
-    def create_flight(self, client:Client):
+    def create_client(self, client:Client):
         """Добавление клиента"""
         return self.repository.create_client(client)
     
