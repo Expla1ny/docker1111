@@ -52,7 +52,7 @@ async def create_client(client_data: dict):
         )
 
         created_client = service.create_client(Client)
-        return created_client
+        return 1
 
     except Exception as e:
         return HTTPException(status_code=500, detail=f"Ошибка при добавлении клиента: {str(e)}")

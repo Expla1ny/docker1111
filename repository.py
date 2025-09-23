@@ -24,7 +24,7 @@ class ClientRepository:
         cursor.close()
         conn.close()
 
-        return client
+        return 1
     
     def get_all(self):
         conn = self.connection.get_connection()
